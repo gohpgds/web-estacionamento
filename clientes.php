@@ -36,6 +36,7 @@
 	<div id="container">
 		<main>
 			<h2>Clientes</h2>
+			<a href="caclientes.php">Criação de novo cliente</a>
 
 			<table class="tabela-dados">
 					<thead>
