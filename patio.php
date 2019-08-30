@@ -1,8 +1,8 @@
 <?php 
 	$conexao = new PDO("mysql:host=localhost;dbname=estacionamento", "estacionamento", "joselia");
-	$sql = "SELECT * FROM Cliente";
+	$sql = "SELECT * FROM patio";
 	$resultado = $conexao->query($sql);
-	$clientes = $resultado->fetchAll();
+	$patios = $resultado->fetchAll();
 	// verifico se tem mensagem pra ser exibida ao usuário.
 	$mensagem = "";
 	if (isset($_COOKIE['mensagem']))
@@ -18,7 +18,7 @@
  <head>
  	<meta charset="UTF-8">
  	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 	<title>Clientes - IF Park</title>
+ 	<title>Pátios - IF Park</title>
  	<link rel="stylesheet" href="estilo.css">
  </head>
  <body>
@@ -28,8 +28,8 @@
 		<nav>
 			<ul id="menu">
 				<li><a href="estacionados.php">Estacionados</a></li>
-				<li><a href="patio.php">Pátios</a></li>
-				<li class="ativo"><a href="clientes.php">Clientes</a></li>
+				<li class="ativo"><a href="patio.php">Pátios</a></li>
+				<li><a href="clientes.php">Clientes</a></li>
 				<li><a href="veiculos.php">Veículos</a></li>
 				<li><a href="modelos.php">Modelos</a></li>
 			</ul>
@@ -37,7 +37,7 @@
 	</header>
 	<div id="container">
 		<main>
-			<h2>Clientes</h2>
+			<h2>Pátios</h2>
 
 			<?php if(!empty($mensagem)): ?>
 				<div id="mensagem">
@@ -45,25 +45,33 @@
 				</div>
 			<?php endif; ?>
 
-			<p><a href="cadcliente.php">Novo Cliente</a></p>
+			<p><a href="cadpatio.php">Novo Pátio</a></p>
+
+			<?php if (count($patios) == 0): ?>
+
+				<p>Não há nenhum registro.</p>
+
+			<?php else: ?>
+
 			<table class="tabela-dados">
 					<thead>
 						<tr>
-							<th>CPF</th>
-							<th>Nome</th>
-							<th>Data Nascimento</th>
+							<th>Número</th>
+							<th>Endereço</th>
+							<th>Capacidade</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($clientes as $cliente): ?>
+						<?php foreach ($patios as $patio): ?>
 						<tr>
-							<td><?= $cliente['cpf'] ?></td>
-							<td><?= $cliente['Nome'] ?></td>
-							<td><?= $cliente['dtNasc'] ?></td>
+							<td><?= $patio['num'] ?></td>
+							<td><?= $patio['ender'] ?></td>
+							<td><?= $patio['capacidade'] ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>	
+			<?php endif; ?>
 		</main>
 	</div>
 	<footer>

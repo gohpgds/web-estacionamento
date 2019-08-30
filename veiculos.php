@@ -1,9 +1,12 @@
 <?php 
+
 	$conexao = new PDO("mysql:host=localhost;dbname=estacionamento", "estacionamento", "joselia");
-	$sql = "SELECT * FROM Cliente";
+
+	$sql = "SELECT * FROM veiculo";
 	$resultado = $conexao->query($sql);
-	$clientes = $resultado->fetchAll();
-	// verifico se tem mensagem pra ser exibida ao usuário.
+
+	$veiculos = $resultado->fetchAll();
+
 	$mensagem = "";
 	if (isset($_COOKIE['mensagem']))
 	{
@@ -13,62 +16,75 @@
 		setcookie('mensagem', '', 1);
 	}
  ?>
+
+
+
+	
+ ?>
  <!DOCTYPE html>
  <html lang="en">
  <head>
  	<meta charset="UTF-8">
  	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 	<title>Clientes - IF Park</title>
+ 	<title>Modelos - IF Park</title>
  	<link rel="stylesheet" href="estilo.css">
  </head>
  <body>
  	
 	<header>
 		<h1>ℙ IF Park</h1>
-		<nav>
-			<ul id="menu">
+		<ul id="menu">
 				<li><a href="estacionados.php">Estacionados</a></li>
 				<li><a href="patio.php">Pátios</a></li>
 				<li class="ativo"><a href="clientes.php">Clientes</a></li>
 				<li><a href="veiculos.php">Veículos</a></li>
 				<li><a href="modelos.php">Modelos</a></li>
 			</ul>
-		</nav>
 	</header>
 	<div id="container">
 		<main>
-			<h2>Clientes</h2>
-
+			<h2>Veículos </h2>
 			<?php if(!empty($mensagem)): ?>
 				<div id="mensagem">
 					<?= $mensagem; ?>
 				</div>
 			<?php endif; ?>
 
-			<p><a href="cadcliente.php">Novo Cliente</a></p>
+			<p><a href="cadveiculo.php">Novo Veículo</a></p>
+
+			<?php if (count($veiculos) == 0): ?>
+
+				<p>Não há nenhum registro.</p>
+
+			<?php else: ?>
+			
+
 			<table class="tabela-dados">
 					<thead>
 						<tr>
-							<th>CPF</th>
-							<th>Nome</th>
-							<th>Data Nascimento</th>
+							<th>Placa</th>
+							<th>Codigo Modelo</th>
+							<th>Cliente</th>
+							<th>Cor</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($clientes as $cliente): ?>
+						<?php foreach ($veiculos as $veiculo): ?>
 						<tr>
-							<td><?= $cliente['cpf'] ?></td>
-							<td><?= $cliente['Nome'] ?></td>
-							<td><?= $cliente['dtNasc'] ?></td>
+							<td><?= $veiculo['placa'] ?></td>
+							<td><?= $veiculo['modelo_codmod'] ?></td>
+							<td><?= $veiculo['cliente_cpf'] ?></td>
+							<td><?= $veiculo['cor'] ?></td>
+
+
+							
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
-				</table>	
+				</table>
+				<?php endif; ?>		
 		</main>
 	</div>
 	<footer>
 		<p>Desenvolvido com ♡ pelo Terceirão 2019.</p>
 	</footer>
-
- </body>
- </html>
